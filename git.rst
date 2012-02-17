@@ -58,6 +58,45 @@ Git Practices at Mozilla
 .. _`git submodules explained`: http://longair.net/blog/2010/06/02/git-submodules-explained/
 .. _`a good rebase article`: http://help.github.com/rebase/
 
+More About Rebase
+-----------------
+
+Rebasing commits is important because it helps us a keep a clean, atomic commit
+history. Clean history is nice because it helps us grok history at a glance,
+but atomic commits are the most important because it means we can revert a
+commit to disable/reenable a feature.
+
+While you're working away in a feature branch, feel free to make very small
+commits that don't encapsulate the entire feature. But when you're ready to
+merge the commit into ``master`` on a feature branch, it should be a single
+commit or a series of atomic commits (each of which could be reverted without
+affecting the other).
+
+Example of a bad commit history in master:
+
+* Add a new handler method
+* Remove handler method
+* Delete "placeholders" directory
+* Write content
+* Fix a typo in last commit
+* Add a new contenttype
+
+You can totally do the above in a feature branch, but it should look like this
+before going into ``master``:
+
+* Delete "placeholders" directory
+* Write content
+* Add a new contenttype
+
+To revert any of those changes in the repo, we only need to revert one commit.
+It's also way easier to grok. Basically, what we want:
+
+* Atomic commits
+* The net results of what you did
+* Tests, docs, code all together
+* Only perfect commits to ``master``; leave your trials in tribulations behind
+  in a personal branch
+
 github.com/mozilla
 ------------------
 
